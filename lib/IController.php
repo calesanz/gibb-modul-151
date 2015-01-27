@@ -8,4 +8,3 @@ interface IController{
 	
 	public function __destruct();
 }
-?>

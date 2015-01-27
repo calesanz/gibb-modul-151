@@ -9,10 +9,6 @@ class DB extends SQLite3{
 class Dispatcher {
 	protected $conn;
 	public function dispatch() {
-
-		//error_reporting ( E_ALL );
-		//ini_set ( 'error_reporting', E_ALL );
-		
 		//ini_set ( 'display_errors', TRUE );
 		
 		session_start ();
@@ -51,7 +47,7 @@ class Dispatcher {
 			$controller = 'DefaultController';
 			require_once ('controller/' . $controller . '.php');
 		}
-		// Falls eine Ung���ltige Funktion angegeben ist wird index verwendet
+		// Falls eine Ung���������ltige Funktion angegeben ist wird index verwendet
 		if (! method_exists ( $controller, $method )) {
 			$method = 'index';
 		}
@@ -62,4 +58,4 @@ class Dispatcher {
 			unset ( $cont );
 	}
 }
-?>
+
