@@ -37,4 +37,6 @@ class View
         extract($this->properties);
         require_once($this->viewfile);
     }
+    
+   
 }
