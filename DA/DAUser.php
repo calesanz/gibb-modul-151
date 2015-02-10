@@ -8,16 +8,17 @@ class DAUser extends DA_Base {
 	}
 	function findAll() {
 		$sql = 'SELECT * FROM person';
-		$stmt = $this->connection->prepare ( $sql );
+		$stmt = self::getConnection()->prepare ( $sql );
 		$stmt->execute ();
 		
 		$people = array ();
-		while ( $result = $stmt->fetch ( PDO::FETCH_ASSOC ) ) {
-			$p = new Person ();
+		while ( $result = $stmt->fetch ( \PDO::FETCH_ASSOC ) ) {
+			$p = new \BE\BEUser ();
 			foreach ( $result as $field_name => $field_value )
 				$p->{$field_name} = $field_value;
 			$people [] = $p;
 		}
+		return $people;
 	}
 	function save(\BE\BEUser $user) {
 	}

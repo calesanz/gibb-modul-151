@@ -9,8 +9,8 @@ class userController implements IController{
 	public function index(){
 		
 		$users = \BO\BOUser::findAll();
-		var_dump($users);
-	(new View('user.anzeigen',array('users'=>$users)))->display();
+		
+	(new \View\View('user.anzeigen',array('users'=>$users)))->display();
 	
 	
 	

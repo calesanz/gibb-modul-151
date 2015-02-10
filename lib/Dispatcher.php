@@ -16,7 +16,7 @@ class Dispatcher {
 		
 		session_start ();
 		
-		spl_autoload_register(array (
+		spl_autoload_register ( array (
 				$this,
 				'on_load' 
 		) );
@@ -39,9 +39,6 @@ class Dispatcher {
 		$method = ! empty ( $url [1] ) ? $url [1] : 'index';
 		$params = ! empty ( $url [2] ) ? $url [2] : '';
 		
-		
-		
-		
 		if (file_exists ( 'controller/' . $controller . '.php' )) {
 			
 			require_once ('controller/' . $controller . '.php');
@@ -52,7 +49,7 @@ class Dispatcher {
 			require_once ('controller/' . $controller . '.php');
 		}
 		
-		$classPath = "\\Controller\\".$controller;
+		$classPath = "\\Controller\\" . $controller;
 		if (! method_exists ( $classPath, $method )) {
 			$method = 'index';
 		}
@@ -61,16 +58,15 @@ class Dispatcher {
 		$cont->$method ( $params );
 		unset ( $cont );
 	}
-	
 	function myStripTags(&$value, $key) {
 		$value = strip_tags ( $value, '<p><br /><b><strong>' );
 		$value = htmlspecialchars ( $value, ENT_QUOTES );
 		$value = trim ( $value );
 	}
-	
-	function on_load($class)
-	{ 
-		require_once('' . str_replace('\\', '/' ,$class). '.php');
+	function on_load($class) {
+		$filePath = '' . str_replace ( '\\', '/', $class ) . '.php';
+		if (file_exists ( $filePath ))
+			require_once ($filePath);
 	}
 }
 
