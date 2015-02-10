@@ -1,35 +1,43 @@
 <?php
 
+namespace Main;
+
 require_once ('lib/IController.php');
 require_once ('lib/View.php');
-require_once('lib/SqlConnector.php');
-/*
- * DB_NAME
- * DB_USER
- * DB_PASSWORD
- * must be defined in passwd file
- * */
-require_once('lib/passwd.php');
+require_once ('lib/SqlConnector.php');
 
+/*
+ * DB_NAME DB_USER DB_PASSWORD must be defined in passwd file
+ */
+require_once ('lib/passwd.php');
 class Dispatcher {
-	
 	public function dispatch() {
-		
 		ini_set ( 'display_errors', TRUE );
 		
 		session_start ();
 		
-		array_walk ( $_POST,   array($this , 'myStripTags')  );
-		array_walk ( $_GET,     array($this , 'myStripTags')  );
-		array_walk ( $_REQUEST, array($this , 'myStripTags')  );	
-	
+		spl_autoload_register(array (
+				$this,
+				'on_load' 
+		) );
+		
+		array_walk ( $_POST, array (
+				$this,
+				'myStripTags' 
+		) );
+		array_walk ( $_GET, array (
+				$this,
+				'myStripTags' 
+		) );
+		array_walk ( $_REQUEST, array (
+				$this,
+				'myStripTags' 
+		) );
+		
 		$url = explode ( '/', trim ( $_SERVER ['REQUEST_URI'], '/' ) );
-		$controller = !empty($url[0]) ? $url[0]. "Controller" : "DefaultController";
-		$method 	= !empty($url[1]) ? $url[1] : 'index';
-		$params 	= !empty($url[2]) ? $url[2] : '';
-
-			
-
+		$controller = ! empty ( $url [0] ) ? $url [0] . "Controller" : "DefaultController";
+		$method = ! empty ( $url [1] ) ? $url [1] : 'index';
+		$params = ! empty ( $url [2] ) ? $url [2] : '';
 		
 		
 		
@@ -43,21 +51,26 @@ class Dispatcher {
 			$controller = 'DefaultController';
 			require_once ('controller/' . $controller . '.php');
 		}
-			if (! method_exists ( $controller, $method )) {
+		
+		$classPath = "\\Controller\\".$controller;
+		if (! method_exists ( $classPath, $method )) {
 			$method = 'index';
 		}
 		
-
-			$cont = new $controller ();
-			$cont->$method ( $params );
-			unset ( $cont );
+		$cont = new $classPath ();
+		$cont->$method ( $params );
+		unset ( $cont );
 	}
 	
-	function myStripTags(&$value, $key)
-	{
-		$value = strip_tags($value, '<p><br /><b><strong>');
-		$value = htmlspecialchars($value, ENT_QUOTES);
-		$value = trim($value);
+	function myStripTags(&$value, $key) {
+		$value = strip_tags ( $value, '<p><br /><b><strong>' );
+		$value = htmlspecialchars ( $value, ENT_QUOTES );
+		$value = trim ( $value );
+	}
+	
+	function on_load($class)
+	{ 
+		require_once('' . str_replace('\\', '/' ,$class). '.php');
 	}
 }
 

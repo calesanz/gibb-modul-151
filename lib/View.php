@@ -1,5 +1,5 @@
 <?php
-
+namespace View;
 class View
 {
     private $viewfile 	= null;

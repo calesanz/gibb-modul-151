@@ -8,17 +8,17 @@ class gaestebuchController implements IController {
 		if ($db = SqlConnector::getOpenConnection ()) {
 			
 			$stmt = $db->prepare ( "SELECT name,email,url,datum,eintrag FROM gaestebuch;" );
-			
+			$stmt->setFetchMode(PDO::FETCH_OBJ);
 			if ($stmt->execute ()) {
-				$stmt->bind_result ( $name, $email,$url,$datum,$eintrag );
 				
-				while ( $stmt->fetch () ) {
-					$inhalt .= "$name $email $url $datum $eintrag";
+				
+				while ($result = $stmt->fetch () ) {
+					$inhalt .= "$result->eintrag ";
 				}
 				
 				$stmt->fetch ();
 			}
-			$db->close ();
+			
 			
 			$this->innerView = new View ( 'gaestebuch.anzeigen', array (
 					'inhalt' => $inhalt 
