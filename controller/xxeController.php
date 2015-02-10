@@ -12,7 +12,9 @@ class xxeController implements IController{
 	}
 	public function search(){
 		//libxml_disable_entity_loader(true);
-		print_r($_POST);
+		//$contents=file_get_contents($_FILES['filename']['tmp_name']);
+		$contents = file_get_contents('php://input');
+		var_dump($contents);
 // 		$dom = new DOMDocument();
 		
 // 		if ($dom->load($xml) !== FALSE)
