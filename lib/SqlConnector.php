@@ -5,6 +5,7 @@ class SqlConnector {
     }
     
     static function getOpenConnection(){
-    	return new mysqli("localhost", "phpuser", "dGrrU5Jcwhp9prX2", "homepageanwendungen");
+    	
+    	return  new PDO('mysql:host=localhost;dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     }
 }
