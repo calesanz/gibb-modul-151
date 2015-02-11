@@ -1,4 +1,5 @@
 <?php
+namespace Controller;
 class gaestebuchController implements IController {
 	public function __construct() {
 	}

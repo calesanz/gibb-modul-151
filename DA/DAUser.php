@@ -13,10 +13,10 @@ class DAUser extends DA_Base {
 		
 		$people = array ();
 		while ( $result = $stmt->fetch ( \PDO::FETCH_ASSOC ) ) {
-			$p = new \BE\BEUser ();
-			foreach ( $result as $field_name => $field_value )
-				$p->{$field_name} = $field_value;
-			$people [] = $p;
+			
+			$user = self::assignValues(new \BE\BEUser (),$result);
+			$user->compareString = $user->getCompareString();
+			$people [] = $user;
 		}
 		return $people;
 	}
