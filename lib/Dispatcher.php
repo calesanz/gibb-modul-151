@@ -37,7 +37,10 @@ class Dispatcher {
 		$url = explode ( '/', trim ( $_SERVER ['REQUEST_URI'], '/' ) );
 		$controller = ! empty ( $url [0] ) ? $url [0] . "Controller" : "DefaultController";
 		$method = ! empty ( $url [1] ) ? $url [1] : 'index';
-		$params = ! empty ( $url [2] ) ? $url [2] : '';
+		$param = ! empty ( $url [2] ) ? $url [2] : '';
+		
+		$data = $_POST;
+		$session=$_SESSION;
 		
 		if (file_exists ( 'controller/' . $controller . '.php' )) {
 			
@@ -55,7 +58,7 @@ class Dispatcher {
 		}
 		
 		$cont = new $classPath ();
-		$cont->$method ( $params );
+		$cont->$method ( $param,$data,$session);
 		unset ( $cont );
 	}
 	function myStripTags(&$value, $key) {

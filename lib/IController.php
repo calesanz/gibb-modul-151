@@ -1,5 +1,6 @@
 <?php 
 namespace Controller;
+
 interface IController{
 	public function __construct();
 	
