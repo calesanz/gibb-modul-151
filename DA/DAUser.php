@@ -3,6 +3,7 @@
 namespace DA;
 
 class DAUser extends DA_Base {
+	
 	function find($id) {
 		$sql = 'SELECT * FROM person WHERE id = :id';
 		$stmt = self::getConnection ()->prepare ( $sql );
@@ -16,6 +17,7 @@ class DAUser extends DA_Base {
 		$user->compareString = $user->getCompareString ();
 		return $user;
 	}
+	
 	function findAll() {
 		$sql = 'SELECT * FROM person';
 		$stmt = self::getConnection ()->prepare ( $sql );
@@ -30,7 +32,12 @@ class DAUser extends DA_Base {
 		}
 		return $people;
 	}
+	
 	function save(\BE\BEUser $user) {
+		
 	}
+	
+	
+	
 }
 
