@@ -2,10 +2,10 @@
 
 namespace DA;
 
-class DAUser extends DA_Base {
+class DAGuestBookEntry extends DA_Base {
 	
 	function find($id) {
-		$sql = 'SELECT * FROM User WHERE Id = :Id';
+		$sql = 'SELECT * FROM GuestBookEntry WHERE Id = :Id';
 		$stmt = self::getConnection ()->prepare ( $sql );
 		$stmt->bindValue ( ":Id", $id );
 		$stmt->execute ();
@@ -13,23 +13,23 @@ class DAUser extends DA_Base {
 		$people = array ();
 		$result = $stmt->fetch ( \PDO::FETCH_ASSOC );
 		
-		$user = self::assignValues ( new \BE\BEUser (), $result );
+		$entry = self::assignValues ( new \BE\BEGuestBookEntry (), $result );
 		
-		return $user;
+		return $entry;
 	}
 	
 	function findAll() {
-		$sql = 'SELECT * FROM User';
+		$sql = 'SELECT * FROM GuestBookEntry';
 		$stmt = self::getConnection ()->prepare ( $sql );
 		$stmt->execute ();
 		
-		$people = array ();
+		$entries = array ();
 		while ( $result = $stmt->fetch ( \PDO::FETCH_ASSOC ) ) {
 			
-			$user = self::assignValues ( new \BE\BEUser (), $result );
-			$people [] = $user;
+			$entry = self::assignValues ( new \BE\BEGuestBookEntry (), $result );
+			$entries [] = $entry;
 		}
-		return $people;
+		return $entries;
 	}
 	
 	function save(\BE\BEUser $user) {

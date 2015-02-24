@@ -2,16 +2,18 @@
 namespace BE;
 
 class BEUser extends BE_Base{
-	public $id = 0;
-	public $username = null;
-	public $email = null;
+	public $Id = 0;
+	public $Username = null;
+	public $Email = null;
+	public $FullName = null;
+	
 	
 	public function isNew(){
-		return $this->id===0;
+		return $this->Id===0;
 	}
 	
 	public function getCompareString(){
-		return "$this->id $this->username $this->email";
+		return "$this->Id $this->Username $this->Email $this->FullName";
 	}
 	
 }

@@ -28,8 +28,11 @@ class DA_Base {
 	 */
 	static protected function assignValues(\BE\BE_Base $object, $resultset) {
 		if ($resultset)
-			foreach ( $resultset as $field_name => $field_value )
+			foreach ( $resultset as $field_name => $field_value ){
 				$object->{$field_name} = $field_value;
+				$object->compareString = $object->getCompareString ();
+			}
+				
 		return $object;
 	}
 }
