@@ -36,6 +36,21 @@ class DAUser extends DA_Base {
 		
 	}
 	
+	function findByEmailPassword($email,$password){
+		$sql = 'SELECT * FROM User WHERE Email = :Email AND Password = :Password';
+		$stmt = self::getConnection ()->prepare ( $sql );
+		$stmt->bindValue ( ":Email", $email );
+		$stmt->bindValue ( ":Password", $password );
+		$stmt->execute ();
+		
+		$people = array ();
+		$result = $stmt->fetch ( \PDO::FETCH_ASSOC );
+		
+		$user = self::assignValues ( new \BE\BEUser (), $result );
+		
+		return $user;
+	}
+	
 	
 	
 }

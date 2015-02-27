@@ -12,7 +12,9 @@ class userController implements IController {
 		$user = \BO\BOUser::find ( $param );
 		if ($user && ! $user->isNew ()) {
 			
-			(new \View\View ( 'user.detail', array ('user' => $user )))->display ();
+			(new \View\View ( 'user.detail', array (
+					'user' => $user 
+			) ))->display ();
 		} else {
 			$this->listusers ();
 		}
@@ -20,19 +22,40 @@ class userController implements IController {
 	public function listusers() {
 		$users = \BO\BOUser::findAll ();
 		
-		(new \View\View ( 'user.list', array ('users' => $users)))->display ();
+		(new \View\View ( 'user.list', array (
+				'users' => $users 
+		) ))->display ();
 	}
-	
-	public function register(){
+	public function register() {
+	}
+	public function login($param, $data, $session) {
+		$errorMessage = "";
+		$backurl = "/";
+		if (isset ( $data ['backurl'] ))
+			$backurl = $data ['backurl'];
 		
-	}
-	
-	public function login($param,$data,$session){
-		if(isset($data)&&isset($session)){
+		if (isset ( $data ['email'] ) && isset ( $data ['password'] )) {
+			$user = \BO\BOUser::login ( $data ['email'], $data ['password'] );
+			if ($user->Id > 0) {
+				
+				$session ['userId'] = $user->Id;
+				$session ['FullName'] = $user->FullName;
+				// Logged In
+						
+				header ( "Location: $backurl" );
+				header ( "HTTP/1.1 302 Found" );
+				return;
+			} else
+				$errorMessage = "Incorrect credentials!";
+		} else
+			$errorMessage = "Please enter credentials!";
 			
-		}
+			// Display Login Page
+		(new \View\View ( 'user.login', array (
+				'errorMessage' => $errorMessage,
+				'backurl' => $backurl 
+		) ))->display ();
 	}
-	
 	public function create() {
 	}
 	public function __destruct() {

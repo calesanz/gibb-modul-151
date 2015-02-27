@@ -32,7 +32,17 @@ class BOUser extends BO_Base{
 	
 	static function login($email,$password){
 		
-		 \DA\DAUser::findByEmailPassword($email,$password);
+		 return \DA\DAUser::findByEmailPassword($email,$password);
+	}
+	
+	static function register(\BEUser $user){
+		
+	}
+	
+	
+	// TODO: Cchange Password
+	static function changePassword(){
+	
 	}
 	
 	

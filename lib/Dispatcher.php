@@ -21,26 +21,22 @@ class Dispatcher {
 				'on_load' 
 		) );
 		
-		array_walk ( $_POST, array (
-				$this,
-				'myStripTags' 
-		) );
-		array_walk ( $_GET, array (
-				$this,
-				'myStripTags' 
-		) );
-		array_walk ( $_REQUEST, array (
+		array_walk_recursive ( $_REQUEST, array (
 				$this,
 				'myStripTags' 
 		) );
 		
 		$url = explode ( '/', trim ( $_SERVER ['REQUEST_URI'], '/' ) );
+		// strip the ? part
+		if (isset ( $url [1] ))
+			$url [1] = explode ( '?', $url [1] )[0];
+		
 		$controller = ! empty ( $url [0] ) ? $url [0] . "Controller" : "DefaultController";
 		$method = ! empty ( $url [1] ) ? $url [1] : 'index';
 		$param = ! empty ( $url [2] ) ? $url [2] : '';
 		
-		$data = $_POST;
-		$session=$_SESSION;
+		$data = $_REQUEST;
+		$session = $_SESSION;
 		
 		if (file_exists ( 'controller/' . $controller . '.php' )) {
 			
@@ -58,7 +54,7 @@ class Dispatcher {
 		}
 		
 		$cont = new $classPath ();
-		$cont->$method ( $param,$data,$session);
+		$cont->$method ( $param, $data, $session );
 		unset ( $cont );
 	}
 	function myStripTags(&$value, $key) {

@@ -4,20 +4,18 @@
 foreach ( $entries as $entry ) {
 	?>
 	<div class="row">
-		<div class="large-2 columns small-3">
-			<img src="http://placehold.it/80x80&text=[img]" />
-		</div>
-		<div class="large-10 columns">
-			<div class="panel">
+
+		<div class="large-10 columns panel">
+			<div>
 	<?php
-	echo "<strong>[ $entry->CreatedAt ] " . $entry->User->FullName . ": </strong>";
+	echo "[ $entry->CreatedAt ] <strong>" . $entry->User->FullName . ": </strong>";
 	echo "<p>$entry->Text </p>";
 	?>
 							
 			</div>
 			<ul class="inline-list">
-				<li><a href="">Reply</a></li>
-				<li><a href="">Share</a></li>
+				<li><a href="">Edit</a></li>
+
 			</ul>
 
 		</div>

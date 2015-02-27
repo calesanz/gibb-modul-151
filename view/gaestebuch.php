@@ -30,11 +30,7 @@
 
 			</div>
 		</div>
-		<aside class="large-4 columns ">
-			<form>
-				<input type="text"> <input type="text"> <input type="text">
-			</form>
-		</aside>
+		
 
 	</div>
 
