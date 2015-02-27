@@ -26,9 +26,13 @@ class BOUser extends BO_Base{
 		if($user.id == 0){
 			$message .= "<li>User cannot be null!</li>";
 		}
-		
 		return $message;
 		
+	}
+	
+	static function login($email,$password){
+		
+		 \DA\DAUser::findByEmailPassword($email,$password);
 	}
 	
 	

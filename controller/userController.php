@@ -22,6 +22,17 @@ class userController implements IController {
 		
 		(new \View\View ( 'user.list', array ('users' => $users)))->display ();
 	}
+	
+	public function register(){
+		
+	}
+	
+	public function login($param,$data,$session){
+		if(isset($data)&&isset($session)){
+			
+		}
+	}
+	
 	public function create() {
 	}
 	public function __destruct() {
