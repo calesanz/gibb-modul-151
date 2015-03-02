@@ -32,8 +32,14 @@ class DAGuestBookEntry extends DA_Base {
 		return $entries;
 	}
 	
-	function save(\BE\BEUser $user) {
+	function save(\BE\BEGuestBookEntry $entry) {
+		//TODO New and update Queys
+		$sql = 'INSERT INTO GuestBookEntry() VALUES (:Id)';
+		$stmt = self::getConnection ()->prepare ( $sql );
+		$stmt->bindValue ( ":Id", $id );
+		$stmt->execute ();
 		
+		//TODO Return entry ID
 	}
 	
 	

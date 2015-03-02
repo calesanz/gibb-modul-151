@@ -20,17 +20,16 @@ class BOGuestBook extends BO_Base{
 	
 	static function save(\BEGuestBookEntry $entry){
 		$error= $this->validate($entry);
+
 		if ($error!=""){
-			
+			\DA\DAGuestBookEntry::save($entry);
 		}
 		return  $error;
 	}
 	
 	static function validate(\BEGuestBookEntry $entry){
 		$message ="";
-		if($entry.id == 0){
-			$message .= "<li>Entry cannot be null!</li>";
-		}
+		
 		if($userId == 0)
 			$message .= "<li>User cannot be null!</li>";	
 		if(!isset($text) || $text == "" )
