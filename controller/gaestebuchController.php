@@ -15,24 +15,29 @@ class gaestebuchController implements IController {
 		$this->create ();
 	}
 	public function bearbeiten($param, $data, $session) {
+		//TODO Backurl
 		$errors = "";
-		$guestbook = null;
+		$guestbook = new \BE\BEGuestBookEntry ();
+		
 		if (isset ( $session ['userId'] )) {
-			if (isset ( $param ) && isNumber ( $param ) && $param > 0) {
-				$guestbook = \BO\BOGuestBook::find ( $number );
-			} else {
-				$guestbook = new \BE\BEGuestBookEntry ();
+			if (isset ( $param ) && is_numeric ( $param ) && $param > 0) {
+				$guestbook = \BO\BOGuestBook::find ( $param );
 			}
-			
-			if (isset ( $data ['inhalt'] )) {
-				$guestbook->Text = $data ['inhalt'];
-				$guestbook->UserId = $session ['userId'];
-				$guestbook->CreatedAt = (new \DateTime())->format('Y-m-d H:i:s');
-				$errors += \BO\BOGuestBook::save($guestbook);
+				
+				// Checks if user is allowed to modify
+			if ($guestbook->UserId == $session ['userId'] || $guestbook->UserId == 0) {
+				if (isset ( $data ['inhalt'] )) {
+					$guestbook->Text = $data ['inhalt'];
+					$guestbook->UserId = $session ['userId'];
+					$guestbook->CreatedAt = (new \DateTime ())->format ( 'Y-m-d H:i:s' );
+					$errors .= \BO\BOGuestBook::save ( $guestbook );
+				
+				}
+			} else {
+				$errors .= "<li>Warning: You can only modify your own posts!</li>";
 			}
 		} else {
-			$errors+="<li>Access denied!</li>";
-			// TODO Permission warning
+			$errors .= "<li>Access denied!</li>";
 		}
 		$this->innerView = new \View\View ( 'gaestebuch.bearbeiten', array (
 				'errors' => $errors,

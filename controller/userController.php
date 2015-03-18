@@ -38,8 +38,8 @@ class userController implements IController {
 			$user = \BO\BOUser::login ( $data ['email'], $data ['password'] );
 			if ($user->Id > 0) {
 				
-				$session ['userId'] = $user->Id;
-				$session ['FullName'] = $user->FullName;
+				$_SESSION ['userId'] = $user->Id;
+				$_SESSION ['FullName'] = $user->FullName;
 				// Logged In
 						
 				header ( "Location: $backurl" );
