@@ -29,6 +29,12 @@ class userController implements IController {
 	}
 	public function register() {
 	}
+	
+	public function logout(){
+		session_destroy();
+		\Redirector::redirect("/");
+	}
+	
 	public function login($param, $data, $session) {
 		$errorMessage = "";
 		$backurl = "/";

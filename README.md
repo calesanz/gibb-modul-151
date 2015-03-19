@@ -4,9 +4,18 @@ GIBB Web Modul
 
 #Anforderungen
 Meine Interpretation der Anforderungen:
-- Gästebuch
-- Login
-- Gästebuch felder (Benutzer, Text, Datum , Bilder )
-- Eigene Einträge erfassen, bearbeiten, löschen
-- Alle einträge anzeigen
-- Adminbereich (alle Einträge manipulieren)
+* Gästebuch ✓
+* Registrieren
+* Login ✓
+* Gästebuch felder:
+	* Benutzer ✓
+	* Text ✓
+	* Datum  ✓
+* Eigene Einträge 
+	* erfassen ✓
+	* bearbeiten ✓
+	* löschen
+* Navigation
+* Design
+* Alle einträge anzeigen
+* ~~Adminbereich (alle Einträge manipulieren)~~
