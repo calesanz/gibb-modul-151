@@ -17,7 +17,7 @@ class DAGuestBookEntry extends DA_Base {
 		return $entry;
 	}
 	function findAll() {
-		$sql = 'SELECT * FROM GuestBookEntry';
+		$sql = 'SELECT * FROM GuestBookEntry ORDER BY CreatedAt DESC';
 		$stmt = self::getConnection ()->prepare ( $sql );
 		$stmt->execute ();
 		

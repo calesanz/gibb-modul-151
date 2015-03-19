@@ -42,9 +42,7 @@ class userController implements IController {
 				$_SESSION ['userId'] = $user->Id;
 				$_SESSION ['FullName'] = $user->FullName;
 				// Logged In
-						
-				header ( "Location: $backurl" );
-				header ( "HTTP/1.1 302 Found" );
+				\Redirector::redirect($backurl);
 				return;
 			} else
 				$errorMessage = "Incorrect credentials!";

@@ -3,26 +3,29 @@
 <?php
 foreach ( $entries as $entry ) {
 	?>
-	<div class="row">
+	<div class="">
 
-		<div class="large-10 columns panel">
+		<div class="jumbotron">
 			<div>
 	<?php
-	echo "[ $entry->CreatedAt ] <strong>" . $entry->User->FullName . ": </strong>";
 	echo "<p>$entry->Text </p>";
-	?>
-							
+	?>					
 			</div>
-			<ul class="inline-list">
+			<div >
+			<?php echo "Entry created by <strong>" . $entry->User->FullName . " </strong> on $entry->CreatedAt ";
+			?>
+			<ul class="list-inline">
 			
 				<?php if(isset($entry->editLink)) echo "<li><a href='".$entry->editLink."'>Edit</a></li>"; ?>
 
 			</ul>
+			</div>
 
 		</div>
-	</div>
-	
+			
 	<?php
 }
 ?>
+	</div>
+
 </ul>

@@ -5,6 +5,7 @@ namespace Main;
 require_once ('lib/IController.php');
 require_once ('lib/View.php');
 require_once ('lib/SqlConnector.php');
+require_once ('lib/Redirector.php');
 
 /*
  * DB_NAME DB_USER DB_PASSWORD must be defined in passwd file
@@ -39,6 +40,7 @@ class Dispatcher {
 		
 		$data = $_REQUEST;
 		$session = $_SESSION;
+		
 		
 		if (file_exists ( 'controller/' . $controller . '.php' )) {
 			

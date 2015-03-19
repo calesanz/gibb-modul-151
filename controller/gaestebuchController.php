@@ -43,8 +43,7 @@ class gaestebuchController implements IController {
 					$errors .= \BO\BOGuestBook::save ( $guestbook );
 					if ($errirs == "") {
 						// Redirect back
-						header ( "Location: $backurl" );
-						header ( "HTTP/1.1 302 Found" );
+						\Redirector::redirect($backurl);
 						return;
 					}
 				}
