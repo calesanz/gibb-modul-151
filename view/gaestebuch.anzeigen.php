@@ -14,7 +14,8 @@ foreach ( $entries as $entry ) {
 							
 			</div>
 			<ul class="inline-list">
-				<li><a href="">Edit</a></li>
+			
+				<?php if(isset($entry->editLink)) echo "<li><a href='".$entry->editLink."'>Edit</a></li>"; ?>
 
 			</ul>
 

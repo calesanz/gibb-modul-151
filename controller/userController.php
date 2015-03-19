@@ -5,7 +5,7 @@ namespace Controller;
 class userController implements IController {
 	public function __construct() {
 	}
-	public function index() {
+	public function index($param, $data, $session) {
 		$this->listusers ();
 	}
 	public function detail($param) {
@@ -22,9 +22,10 @@ class userController implements IController {
 	public function listusers() {
 		$users = \BO\BOUser::findAll ();
 		
-		(new \View\View ( 'user.list', array (
+		$this->innerView = new \View\View ( 'user.list', array (
 				'users' => $users 
-		) ))->display ();
+		) );
+		$this->create();
 	}
 	public function register() {
 	}
@@ -51,12 +52,17 @@ class userController implements IController {
 			$errorMessage = "Please enter credentials!";
 			
 			// Display Login Page
-		(new \View\View ( 'user.login', array (
+		$this->innerView =new \View\View ( 'user.login', array (
 				'errorMessage' => $errorMessage,
 				'backurl' => $backurl 
-		) ))->display ();
+		) );
+		$this->create();
 	}
-	public function create() {
+public function create() {
+		$this->innerView = (new \View\View ( 'mainpage', array (
+				'title' => 'Login',
+				'innercontent' => $this->innerView 
+		) ))->display ();
 	}
 	public function __destruct() {
 	}

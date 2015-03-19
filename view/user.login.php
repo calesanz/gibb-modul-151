@@ -10,8 +10,9 @@
 	<input type="text" name="email" value="" >
 	<input type="password" name="password" value="">
 	<input type="submit" name="submit" value="Login">
-	<?php 
+	<?php if(isset($backurl)){
 		echo "<input type='hidden' name='backurl' value='$backurl'>";
+	}
 	?>
 </form>
 </div>

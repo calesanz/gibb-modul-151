@@ -26,10 +26,12 @@ class Dispatcher {
 				'myStripTags' 
 		) );
 		
-		$url = explode ( '/', trim ( $_SERVER ['REQUEST_URI'], '/' ) );
+		$requestUri = trim ( $_SERVER ['REQUEST_URI'],'/');
 		// strip the ? part
-		if (isset ( $url [1] ))
-			$url [1] = explode ( '?', $url [1] )[0];
+		if (isset ($requestUri ))
+			$requestUri = explode ( '?', $requestUri )[0];
+		$url = explode ( '/', $requestUri );
+		
 		
 		$controller = ! empty ( $url [0] ) ? $url [0] . "Controller" : "DefaultController";
 		$method = ! empty ( $url [1] ) ? $url [1] : 'index';
