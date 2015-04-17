@@ -51,11 +51,10 @@ class DAUser extends DA_Base {
 		$password = self::getPasswordHash($password,$salt);
 		
 		
-		$sql = "INSERT INTO User(Username,Email,Password,PasswordSalt,FullName) VALUES (:Username,:Email,:Password,:PasswordSalt,:FullName);";
+		$sql = "INSERT INTO User(Email,Password,PasswordSalt,FullName) VALUES (:Email,:Password,:PasswordSalt,:FullName);";
 		$db = self::getConnection ();
 		$stmt = $db->prepare ( $sql );
 		$stmt->bindValue ( ":Email", $user->Email );
-		$stmt->bindValue ( ":Username", $user->Username );
 		$stmt->bindValue ( ":Password", $password );
 		$stmt->bindValue ( ":PasswordSalt", $salt );
 		$stmt->bindValue ( ":FullName", $user->FullName );

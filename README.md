@@ -18,12 +18,11 @@ Meine Interpretation der Anforderungen:
 * Navigation ✓
 * Design 
 * Alle einträge anzeigen ✓
-* Registration: Daten zwischenpeichern
-* Kommentare
+* Registration: Daten zwischenpeichern✓
 * better Exception / Error handling
 * change password
 * Impressum/Rechtliches
-* username entfernen
+* username entfernen ✓
 
 
 #Nice to have
@@ -31,6 +30,7 @@ Meine Interpretation der Anforderungen:
 * Captcha (bei registration)
 * Security questions
 * ~~Adminbereich (alle Einträge manipulieren)~~
+* ~~Kommentare~~
 
 #Dokumentation
 * Inline Comments

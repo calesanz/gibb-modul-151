@@ -37,10 +37,7 @@ class BOUser extends BO_Base{
 	
 	static function register(\BE\BEUser $user,$password,$passwordrepeat){
 		$errorMessage ="";
-		if(!ctype_alnum ($user->Username)||strlen($user->Username)!=6){
 		
-			$errorMessage .= '<li>Username must be alphanumeric and six characters long.</li>';
-		}
 		if(!filter_var($user->Email, FILTER_VALIDATE_EMAIL)){
 				
 			$errorMessage .='<li>Invalid email address!</li>';

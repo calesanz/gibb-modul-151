@@ -2,7 +2,6 @@ CREATE DATABASE Guestbook;
 
 CREATE TABLE User (
 	Id INT not null primary key auto_increment	
-	, Username NVARCHAR(100)
 	, Password VARCHAR(64)
 	, PasswordSalt VARCHAR(64)
 	, Email VARCHAR(50)

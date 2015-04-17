@@ -38,13 +38,12 @@ class userController implements IController {
 			$backurl = $this->data ['backurl'];
 			// Do the register logic and validation
 		if (isset ( $this->data ['submit'] ))
-			if (isset ( $this->data ['username'] ) && isset ( $this->data ['password'] ) && isset ( $this->data ['password2'] ) && isset ( $this->data ['email'] ) && isset ( $this->data ['fullname'] )) {
+			if ( isset ( $this->data ['password'] ) && isset ( $this->data ['password2'] ) && isset ( $this->data ['email'] ) && isset ( $this->data ['fullname'] )) {
 				
 				$password = $this->data ['password'];
 				$password2 = $this->data ['password'];
 				
 				$user = new \BE\BEUser ();
-				$user->Username = $this->data ['username'];
 				$user->Email = $this->data ['email'];
 				$user->FullName = $this->data ['fullname'];
 				// add user
@@ -67,10 +66,16 @@ class userController implements IController {
 			} else
 				$errorMessage .= "<li>Please fill in all fields!</li>";
 			
+			//chached data
+			$email = isset($this->data ['email']) ? $this->data['email']:"" ;
+			$fullname =isset($this->data ['fullname']) ? $this->data['fullname']:"" ;
 			// Display Login Page
 		$this->innerView = new \View\View ( 'user.registrieren', array (
 				'errorMessage' => $errorMessage,
-				'backurl' => $backurl 
+				'backurl' => $backurl ,
+				'fullname' =>$fullname,
+				'email' => $email
+			
 		) );
 		$this->create ();
 	}

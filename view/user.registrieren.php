@@ -8,13 +8,11 @@
 
 	<form class="form-signin"  method="post" action="/user/register">
 		<div>
-			<input type="text" name="fullname" value="" placeholder="full name" class="form-control">
+			<input type="text" name="fullname" value="<?php if(isset($fullname)) echo $fullname; ?>" placeholder="full name" class="form-control">
 		</div>
+		
 		<div>
-			<input type="text" name="username" value="" placeholder="username" class="form-control">
-		</div>
-		<div>
-			<input type="text" name="email" value="" placeholder="email" class="form-control">
+			<input type="text" name="email" value="<?php if(isset($email)) echo $email; ?>" placeholder="email" class="form-control">
 		</div>
 		<div>
 			<input type="password" name="password" value="" class="form-control"

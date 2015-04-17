@@ -3,7 +3,6 @@ namespace BE;
 
 class BEUser extends BE_Base{
 	public $Id = 0;
-	public $Username = null;
 	public $Email = null;
 	public $FullName = null;
 	
