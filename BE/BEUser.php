@@ -12,7 +12,7 @@ class BEUser extends BE_Base{
 	}
 	
 	public function getCompareString(){
-		return "$this->Id $this->Username $this->Email $this->FullName";
+		return "$this->Id $this->Email $this->FullName";
 	}
 	
 }
