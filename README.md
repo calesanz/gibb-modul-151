@@ -19,9 +19,12 @@ Meine Interpretation der Anforderungen:
 * Design 
 * Alle einträge anzeigen ✓
 * Registration: Daten zwischenpeichern
-* Comments
+* Kommentare
 * better Exception / Error handling
 * change password
+* Impressum/Rechtliches
+* username entfernen
+
 
 #Nice to have
 * Images / Attachments
@@ -30,8 +33,9 @@ Meine Interpretation der Anforderungen:
 * ~~Adminbereich (alle Einträge manipulieren)~~
 
 #Dokumentation
-* DB Schema
-* User Stories
+* Inline Comments
+* DB Schema ✓
+* User Stories ✓
 * Test cases
 * Test protokoll
 * CRQ erstellen
@@ -39,6 +43,8 @@ Meine Interpretation der Anforderungen:
 * Security gedanken 
 	* SIKO
 	* Redirect validation
+	* CSRF
 	* SQL Inject
 	* XSS Prevention
 	* Salted Hashed PW
+	* Robots deny All

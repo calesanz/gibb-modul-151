@@ -14,7 +14,7 @@ foreach ( $entries as $entry ) {
 		<div>
 			<?php
 	
-echo "Entry created by <strong>" . $entry->User->FullName . " </strong> on $entry->CreatedAt ";
+	echo "Entry created by <strong>" . $entry->User->FullName . " </strong> on $entry->CreatedAt ";
 	?>
 			<ul class="list-inline">
 			
