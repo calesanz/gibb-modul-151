@@ -32,6 +32,7 @@ class DAGuestBookEntry extends DA_Base {
 	function save(\BE\BEGuestBookEntry $entry) {
 		// TODO New and update Queys
 		$sql = "";
+		
 		if ($entry->Id > 0)
 			$sql = "UPDATE GuestBookEntry SET 
 					Text = :Text,
@@ -54,6 +55,19 @@ class DAGuestBookEntry extends DA_Base {
 			return "<li>An internal Error ocourred!</li>";
 		}
 		// TODO Error handling
+	}
+	function delete(\BE\BEGuestBookEntry $entry) {
+		$sql = "DELETE FROM GuestBookEntry WHERE Id = :Id";
+		
+		try {
+			$stmt = self::getConnection ()->prepare ( $sql );
+			
+			$stmt->bindValue ( ":Id", $entry->Id );
+			
+			$stmt->execute ();
+		} catch ( \Exception $e ) {
+			return "<li>Could not delete entry. An internal Error ocourred!</li>";
+		}
 	}
 }
 

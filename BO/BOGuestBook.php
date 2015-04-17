@@ -27,6 +27,11 @@ class BOGuestBook extends BO_Base{
 		
 		return  $error;
 	}
+	static function delete(\BE\BEGuestBookEntry $entry){
+		$error = \DA\DAGuestBookEntry::delete ( $entry );
+		return  $error;
+	}
+	
 	
 	static function validate(\BE\BEGuestBookEntry $entry){
 		$message ="";

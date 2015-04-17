@@ -14,8 +14,8 @@ Meine Interpretation der Anforderungen:
 * Eigene Einträge 
 	* erfassen ✓
 	* bearbeiten ✓
-	* löschen
+	* löschen ✓
 * Navigation
 * Design
-* Alle einträge anzeigen
+* Alle einträge anzeigen ✓
 * ~~Adminbereich (alle Einträge manipulieren)~~

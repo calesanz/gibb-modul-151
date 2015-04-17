@@ -28,10 +28,16 @@ class gaestebuchController implements IController {
 			$backurl = $data ['backurl'];
 		
 		$errors = "";
+		
+		$guestbookId = $param;
+		if (! (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0))
+			$guestbookId = isset ( $data ['guestbookId'] ) ? $data ['guestbookId'] : 0;
+		
 		$guestbook = new \BE\BEGuestBookEntry ();
+		
 		if (isset ( $session ['userId'] )) {
-			if (isset ( $param ) && is_numeric ( $param ) && $param > 0) {
-				$guestbook = \BO\BOGuestBook::find ( $param );
+			if (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0) {
+				$guestbook = \BO\BOGuestBook::find ( $guestbookId );
 			}
 			
 			// Checks if user is allowed to modify
@@ -39,11 +45,12 @@ class gaestebuchController implements IController {
 				if (isset ( $data ['inhalt'] )) {
 					$guestbook->Text = $data ['inhalt'];
 					$guestbook->UserId = $session ['userId'];
-					$guestbook->CreatedAt = (new \DateTime ())->format ( 'Y-m-d H:i:s' );
+					$guestbook->CreatedAt = date ( 'Y-m-d H:i:s' );
+					var_dump ( $guestbook );
 					$errors .= \BO\BOGuestBook::save ( $guestbook );
 					if ($errirs == "") {
 						// Redirect back
-						\Redirector::redirect($backurl);
+						\Redirector::redirect ( $backurl );
 						return;
 					}
 				}
@@ -60,12 +67,46 @@ class gaestebuchController implements IController {
 		) );
 		$this->create ();
 	}
+	public function loeschen($param, $data, $session) {
+		$backurl = "/";
+		if (isset ( $data ['backurl'] ))
+			$backurl = $data ['backurl'];
+		
+		$errors = "";
+		$guestbook = new \BE\BEGuestBookEntry ();
+		$guestbookId = $data ['guestbookId'];
+		if (isset ( $session ['userId'] )) {
+			if (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0) {
+				$guestbook = \BO\BOGuestBook::find ( $guestbookId );
+				
+				// Checks if user is allowed to modify
+				if ($guestbook->UserId == $session ['userId']) {
+					$errors .= \BO\BOGuestBook::delete ( $guestbook );
+					if ($errirs == "") {
+						// Redirect back
+						\Redirector::redirect ( $backurl );
+						return;
+					}
+				} else {
+					$errors .= "<li>Warning: You can only delete your own posts!</li>";
+				}
+			} else
+				$errors .= "<li>No entry specified!</li>";
+		} else {
+			$errors .= "<li>Access denied!</li>";
+		}
+		$this->innerView = new \View\View ( 'gaestebuch.bearbeiten', array (
+				'errors' => $errors,
+				'guestbookentry' => $guestbook,
+				'backurl' => $backurl 
+		) );
+		$this->create ();
+	}
 	public function create() {
 		(new \View\View ( 'mainpage', array (
 				'title' => 'Gästebuch',
 				'innercontent' => $this->innerView 
-		)
-		 ))->display ();
+		) ))->display ();
 	}
 	public function __destruct() {
 	}
