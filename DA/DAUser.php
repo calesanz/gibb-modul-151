@@ -73,10 +73,10 @@ class DAUser extends DA_Base {
 		//TODO Salt
 		
 		
-		$sql = 'SELECT * FROM User WHERE Email = :Email AND Password = :Password';
+		$sql = 'SELECT * FROM User WHERE Email = :Email';
 		$stmt = self::getConnection ()->prepare ( $sql );
 		$stmt->bindValue ( ":Email", $email );
-		$stmt->bindValue ( ":Password", $password );
+		
 		$stmt->execute ();
 		
 		$people = array ();
@@ -84,12 +84,56 @@ class DAUser extends DA_Base {
 			
 		
 		$user = self::assignValues ( new \BE\BEUser (), $result );
-		var_dump($user);
 		
-		return $user;
+		if(self::getPasswordHash($password,$user->PasswordSalt) === $user->Password){
+			return $user;
+		}
+		else{
+			throw new \Exception("Incorrect credentials!");
+			
+		}
+		
 	}
 	
-	
+	function changePassword($user,$oldpassword,$newpassword){
+		$sql = 'SELECT * FROM User WHERE Email = :Email';
+		$stmt = self::getConnection ()->prepare ( $sql );
+		$stmt->bindValue ( ":Email", $email );
+		
+		$stmt->execute ();
+		
+		$people = array ();
+		$result = $stmt->fetch ( \PDO::FETCH_ASSOC );
+			
+		
+		$user = self::assignValues ( new \BE\BEUser (), $result );
+	//Check if old password is correct
+		if(self::getPasswordHash($oldpassword,$user->PasswordSalt) === $user->Password){
+			
+			$salt =  \mcrypt_create_iv(32, MCRYPT_DEV_URANDOM);
+			$newpassword = self::getPasswordHash($newpassword,$salt);
+			
+			
+			$sql = "UPDATE User SET Password = :Password, PasswordSalt = :PasswordSalt WHERE Email = :Email";
+			$db = self::getConnection ();
+			$stmt = $db->prepare ( $sql );
+			$stmt->bindValue ( ":Email", $user->Email );
+			$stmt->bindValue ( ":Password", $newpassword );
+			$stmt->bindValue ( ":PasswordSalt", $salt );
+			
+			$stmt->execute ();
+			$userId = $db->lastInsertId();
+			$user =  self::find($userId);
+			return $user;
+			
+			
+		}
+		else{
+			throw new \Exception("Incorrect credentials!");
+				
+		}
+		
+	}
 	
 	
 	

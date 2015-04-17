@@ -67,23 +67,26 @@ class BOUser extends BO_Base{
 		
 	}
 	
-	static function validateUser(\BEUser $user){
-		$errorMessage = FALSE;
-		
-		return $errorMessage;
-		
-		
-	}
-	static function validatePassword($password,$repeatpassword){
-		$errorMessage = FALSE;
-		
-		return $errorMessage;
-		
-	}
 	
-	// TODO: Cchange Password
-	static function changePassword(){
 	
+	
+	static function changePassword(\BE\BEUser $user,$oldpassword,$newpassword,$newpasswordrepeat){
+	
+		if(1!=preg_match("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/",$newpassword)){
+		
+			$errorMessage .= '<li>Password: min. 8 characters, numbers, letters (capital and lowercase) and special characters</li>';
+		}
+		if($newpassword!=$newpasswordrepeat){
+		
+			$errorMessage .= '<li>Passwords do not match!</li>';
+		}
+		
+		if($errorMessage == ""){
+			return \DA\DAUser::changePassword($user,$oldpassword,$newpassword);
+		}
+		else{
+			throw new \Exception($errorMessage);
+		}
 	}
 	
 	

@@ -49,7 +49,7 @@ class userController implements IController {
 				$user = \BO\BOUser::register ( $user, $password, $password2 );
 				
 				if ($user->Id > 0) {
-				
+					
 					$_SESSION ['userId'] = $user->Id;
 					$_SESSION ['FullName'] = $user->FullName;
 					// Logged In
@@ -58,7 +58,7 @@ class userController implements IController {
 				} else
 					$errorMessage .= "<li>Unknown error!</li>";
 			} catch ( \Exception $ex ) {
-				$errorMessage .= $ex->getMessage();
+				$errorMessage .= $ex->getMessage ();
 			}
 		} else
 			$errorMessage .= "<li>Please fill in all fields!</li>";
@@ -70,10 +70,12 @@ class userController implements IController {
 		) );
 		$this->create ();
 	}
+	
 	public function logout() {
 		session_destroy ();
 		\Redirector::redirect ( "/" );
 	}
+	
 	public function login($param, $data, $session) {
 		$errorMessage = "";
 		$backurl = "/";
@@ -81,16 +83,21 @@ class userController implements IController {
 			$backurl = $data ['backurl'];
 		
 		if (isset ( $data ['email'] ) && isset ( $data ['password'] )) {
-			$user = \BO\BOUser::login ( $data ['email'], $data ['password'] );
+			try {
+				$user = \BO\BOUser::login ( $data ['email'], $data ['password'] );
 				if ($user->Id > 0) {
-				
-				$_SESSION ['userId'] = $user->Id;
-				$_SESSION ['FullName'] = $user->FullName;
-				// Logged In
-				 \Redirector::redirect ( $backurl );
-				return;
-			} else
-				$errorMessage = "Incorrect credentials!";
+					
+					$_SESSION ['userId'] = $user->Id;
+					$_SESSION ['FullName'] = $user->FullName;
+					// Logged In
+					\Redirector::redirect ( $backurl );
+					return;
+				} else
+					$errorMessage = "Incorrect credentials!";
+			} catch ( \Exception $ex ) {
+				// Show error
+				$errorMessage .= "<li>" . $ex->getMessage () . "</li>";
+			}
 		} else
 			$errorMessage = "Please enter credentials!";
 			
@@ -101,6 +108,7 @@ class userController implements IController {
 		) );
 		$this->create ();
 	}
+	
 	public function create() {
 		$this->innerView = (new \View\View ( 'mainpage', array (
 				'title' => 'Login',
