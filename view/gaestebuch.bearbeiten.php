@@ -1,14 +1,15 @@
 
 	<?php
-	if (isset ( $errors ))
+	if (isset ( $errors )&&$errors!="")
 		
 		echo "<ul class='alert alert-danger'>" . $errors . "</ul>";
 	
 	?>
 
 <form action="/gaestebuch/bearbeiten" method="post">
-	<textarea type="text" name="inhalt"
+	<textarea type="text" name="inhalt" style="height:100%;width:100%" rows="10"
 		text="<?php if(isset($guestbookentry)) echo $guestbookentry->Text; ?> "></textarea>
+		
 	<input type="hidden" name="guestbookId"
 		value="<?php if(isset($guestbookentry)) echo $guestbookentry->Id; ?> ">
 	<div class="inline-list">

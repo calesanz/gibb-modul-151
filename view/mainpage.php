@@ -12,7 +12,7 @@ body {
 }
 @media (max-width: 979px) {
   body {
-    padding-top: 0px;
+    padding-top: 35px;
   }
 }
 </style>
