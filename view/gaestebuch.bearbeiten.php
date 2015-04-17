@@ -8,7 +8,7 @@
 
 <form action="/gaestebuch/bearbeiten" method="post">
 	<textarea type="text" name="inhalt" style="height:100%;width:100%" rows="10"
-		text="<?php if(isset($guestbookentry)) echo $guestbookentry->Text; ?> "></textarea>
+		><?php if(isset($guestbookentry)) echo $guestbookentry->Text; ?></textarea>
 		
 	<input type="hidden" name="guestbookId"
 		value="<?php if(isset($guestbookentry)) echo $guestbookentry->Id; ?> ">
