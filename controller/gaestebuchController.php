@@ -106,7 +106,7 @@ class gaestebuchController implements IController {
 		$this->create ();
 	}
 	public function create() {
-		$fullname = isset($this->session['fullname'])?$this->session['fullname']:null;
+		$fullname = isset($this->session['FullName'])?$this->session['FullName']:null;
 		(new \View\View ( 'mainpage', array (
 				'title' => 'Guestbook',
 				'innercontent' => $this->innerView,
