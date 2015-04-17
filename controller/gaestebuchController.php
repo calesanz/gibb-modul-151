@@ -3,14 +3,17 @@
 namespace Controller;
 
 class gaestebuchController implements IController {
-	public function __construct() {
+	public function __construct($param, $data, $session) {
+		$this->param = $param;
+		$this->data = $data;
+		$this->session = $session;
 	}
-	public function index($param, $data, $session) {
+	public function index() {
 		$entries = array ();
 		$entries = \BO\BOGuestBook::findAll ();
-		if (isset ( $session ['userId'] )) {
+		if (isset ( $this->session ['userId'] )) {
 			foreach ( $entries as $entry ) {
-				if ($entry->User->Id == $session ['userId']) {
+				if ($entry->User->Id == $this->session ['userId']) {
 					// Show Edit
 					$entry->editLink = "/gaestebuch/bearbeiten/" . $entry->Id;
 				}
@@ -22,31 +25,31 @@ class gaestebuchController implements IController {
 		
 		$this->create ();
 	}
-	public function bearbeiten($param, $data, $session) {
+	public function bearbeiten() {
 		$backurl = "/";
-		if (isset ( $data ['backurl'] ))
-			$backurl = $data ['backurl'];
+		if (isset ( $this->data ['backurl'] ))
+			$backurl = $this->data ['backurl'];
 		
 		$errors = "";
 		
-		$guestbookId = $param;
+		$guestbookId = $this->param;
 		if (! (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0))
-			$guestbookId = isset ( $data ['guestbookId'] ) ? $data ['guestbookId'] : 0;
+			$guestbookId = isset ( $this->data ['guestbookId'] ) ? $this->data ['guestbookId'] : 0;
 		
 		$guestbook = new \BE\BEGuestBookEntry ();
 		
-		if (isset ( $session ['userId'] )) {
+		if (isset ( $this->session ['userId'] )) {
 			if (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0) {
 				$guestbook = \BO\BOGuestBook::find ( $guestbookId );
 			}
 			
 			// Checks if user is allowed to modify
-			if ($guestbook->UserId == $session ['userId'] || $guestbook->UserId == 0) {
-				if (isset ( $data ['inhalt'] )) {
-					$guestbook->Text = $data ['inhalt'];
-					$guestbook->UserId = $session ['userId'];
+			if ($guestbook->UserId == $this->session ['userId'] || $guestbook->UserId == 0) {
+				if (isset ( $this->data ['inhalt'] )) {
+					$guestbook->Text = $this->data ['inhalt'];
+					$guestbook->UserId = $this->session ['userId'];
 					$guestbook->CreatedAt = date ( 'Y-m-d H:i:s' );
-					var_dump ( $guestbook );
+					
 					$errors .= \BO\BOGuestBook::save ( $guestbook );
 					if ($errirs == "") {
 						// Redirect back
@@ -67,22 +70,22 @@ class gaestebuchController implements IController {
 		) );
 		$this->create ();
 	}
-	public function loeschen($param, $data, $session) {
+	public function loeschen() {
 		$backurl = "/";
-		if (isset ( $data ['backurl'] ))
-			$backurl = $data ['backurl'];
+		if (isset ( $this->data ['backurl'] ))
+			$backurl = $this->data ['backurl'];
 		
 		$errors = "";
 		$guestbook = new \BE\BEGuestBookEntry ();
-		$guestbookId = $data ['guestbookId'];
-		if (isset ( $session ['userId'] )) {
+		$guestbookId = $this->data ['guestbookId'];
+		if (isset ( $this->session ['userId'] )) {
 			if (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0) {
 				$guestbook = \BO\BOGuestBook::find ( $guestbookId );
 				
 				// Checks if user is allowed to modify
-				if ($guestbook->UserId == $session ['userId']) {
+				if ($guestbook->UserId == $this->session ['userId']) {
 					$errors .= \BO\BOGuestBook::delete ( $guestbook );
-					if ($errirs == "") {
+					if ($errors == "") {
 						// Redirect back
 						\Redirector::redirect ( $backurl );
 						return;
@@ -103,9 +106,11 @@ class gaestebuchController implements IController {
 		$this->create ();
 	}
 	public function create() {
+		$fullname = isset($this->session['fullname'])?$this->session['fullname']:null;
 		(new \View\View ( 'mainpage', array (
-				'title' => 'Gästebuch',
-				'innercontent' => $this->innerView 
+				'title' => 'Guestbook',
+				'innercontent' => $this->innerView,
+				'fullname' => $fullname
 		) ))->display ();
 	}
 	public function __destruct() {

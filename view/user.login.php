@@ -1,10 +1,10 @@
 <div>
-	<div class="alert alert-danger">
+
 	<?php
-	if (isset ( $errorMessage ))
-		echo $errorMessage;
+if (isset ( $errorMessage ) && $errorMessage != "")
+		echo "	<div class='alert alert-danger'>". $errorMessage . "</div>";
 	?>
-</div>
+
 
 	<form class="form-signin" method="post" action="/user/login">
 		<input class="form-control" type="text" name="email" value="" placeholder="email"> 

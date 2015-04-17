@@ -3,13 +3,16 @@
 namespace Controller;
 
 class userController implements IController {
-	public function __construct() {
+	public function __construct($param, $data, $session) {
+		$this->param = $param;
+		$this->data = $data;
+		$this->session = $session;
 	}
-	public function index($param, $data, $session) {
+	public function index() {
 		$this->listusers ();
 	}
-	public function detail($param) {
-		$user = \BO\BOUser::find ( $param );
+	public function detail() {
+		$user = \BO\BOUser::find ( $this->param );
 		if ($user && ! $user->isNew ()) {
 			
 			(new \View\View ( 'user.detail', array (
@@ -27,41 +30,42 @@ class userController implements IController {
 		) );
 		$this->create ();
 	}
-	public function register($param, $data, $session) {
+	public function register() {
 		$errorMessage = "";
 		$error = false;
 		$backurl = "/";
-		if (isset ( $data ['backurl'] ))
-			$backurl = $data ['backurl'];
+		if (isset ( $this->data ['backurl'] ))
+			$backurl = $this->data ['backurl'];
 			// Do the register logic and validation
-		if (isset ( $data ['username'] ) && isset ( $data ['password'] ) && isset ( $data ['password2'] ) && isset ( $data ['email'] ) && isset ( $data ['fullname'] )) {
-			
-			$password = $data ['password'];
-			$password2 = $data ['password'];
-			
-			$user = new \BE\BEUser ();
-			$user->Username = $data ['username'];
-			$user->Email = $data ['email'];
-			$user->FullName = $data ['fullname'];
-			// add user
-			
-			try {
-				$user = \BO\BOUser::register ( $user, $password, $password2 );
+		if (isset ( $this->data ['submit'] ))
+			if (isset ( $this->data ['username'] ) && isset ( $this->data ['password'] ) && isset ( $this->data ['password2'] ) && isset ( $this->data ['email'] ) && isset ( $this->data ['fullname'] )) {
 				
-				if ($user->Id > 0) {
+				$password = $this->data ['password'];
+				$password2 = $this->data ['password'];
+				
+				$user = new \BE\BEUser ();
+				$user->Username = $this->data ['username'];
+				$user->Email = $this->data ['email'];
+				$user->FullName = $this->data ['fullname'];
+				// add user
+				
+				try {
+					$user = \BO\BOUser::register ( $user, $password, $password2 );
 					
-					$_SESSION ['userId'] = $user->Id;
-					$_SESSION ['FullName'] = $user->FullName;
-					// Logged In
-					\Redirector::redirect ( $backurl );
-					return;
-				} else
-					$errorMessage .= "<li>Unknown error!</li>";
-			} catch ( \Exception $ex ) {
-				$errorMessage .= $ex->getMessage ();
-			}
-		} else
-			$errorMessage .= "<li>Please fill in all fields!</li>";
+					if ($user->Id > 0) {
+						
+						$_SESSION ['userId'] = $user->Id;
+						$_SESSION ['FullName'] = $user->FullName;
+						// Logged In
+						\Redirector::redirect ( $backurl );
+						return;
+					} else
+						$errorMessage .= "<li>Unknown error!</li>";
+				} catch ( \Exception $ex ) {
+					$errorMessage .= $ex->getMessage ();
+				}
+			} else
+				$errorMessage .= "<li>Please fill in all fields!</li>";
 			
 			// Display Login Page
 		$this->innerView = new \View\View ( 'user.registrieren', array (
@@ -70,36 +74,34 @@ class userController implements IController {
 		) );
 		$this->create ();
 	}
-	
 	public function logout() {
 		session_destroy ();
 		\Redirector::redirect ( "/" );
 	}
-	
-	public function login($param, $data, $session) {
+	public function login() {
 		$errorMessage = "";
 		$backurl = "/";
-		if (isset ( $data ['backurl'] ))
-			$backurl = $data ['backurl'];
-		
-		if (isset ( $data ['email'] ) && isset ( $data ['password'] )) {
-			try {
-				$user = \BO\BOUser::login ( $data ['email'], $data ['password'] );
-				if ($user->Id > 0) {
-					
-					$_SESSION ['userId'] = $user->Id;
-					$_SESSION ['FullName'] = $user->FullName;
-					// Logged In
-					\Redirector::redirect ( $backurl );
-					return;
-				} else
-					$errorMessage = "Incorrect credentials!";
-			} catch ( \Exception $ex ) {
-				// Show error
-				$errorMessage .= "<li>" . $ex->getMessage () . "</li>";
-			}
-		} else
-			$errorMessage = "Please enter credentials!";
+		if (isset ( $this->data ['backurl'] ))
+			$backurl = $this->data ['backurl'];
+		if (isset ( $this->data ['submit'] ))
+			if (isset ( $this->data ['email'] ) && isset ( $this->data ['password'] )) {
+				try {
+					$user = \BO\BOUser::login ( $this->data ['email'], $this->data ['password'] );
+					if ($user->Id > 0) {
+						
+						$_SESSION ['userId'] = $user->Id;
+						$_SESSION ['FullName'] = $user->FullName;
+						// Logged In
+						\Redirector::redirect ( $backurl );
+						return;
+					} else
+						$errorMessage = "Incorrect credentials!";
+				} catch ( \Exception $ex ) {
+					// Show error
+					$errorMessage .= "<li>" . $ex->getMessage () . "</li>";
+				}
+			} else
+				$errorMessage = "Please enter credentials!";
 			
 			// Display Login Page
 		$this->innerView = new \View\View ( 'user.login', array (
@@ -108,7 +110,6 @@ class userController implements IController {
 		) );
 		$this->create ();
 	}
-	
 	public function create() {
 		$this->innerView = (new \View\View ( 'mainpage', array (
 				'title' => 'Login',

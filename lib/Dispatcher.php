@@ -57,8 +57,8 @@ class Dispatcher {
 			$method = 'index';
 		}
 		
-		$cont = new $classPath ();
-		$cont->$method ( $param, $data, $session );
+		$cont = new $classPath ($param, $data, $session);
+		$cont->$method ();
 		unset ( $cont );
 	}
 	function myStripTags(&$value, $key) {

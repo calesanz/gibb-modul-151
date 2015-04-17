@@ -1,28 +1,34 @@
 <div>
-	<ul>
-	<?php
-	if (isset ( $errorMessage ))
-		echo $errorMessage;
-	?>
-</ul>
 
-	<form method="post" action="/user/register">
+	<?php
+	if (isset ( $errorMessage ) && $errorMessage != "")
+		echo "<ul class='alert alert-danger'>" . $errorMessage . "</ul>";
+	?>
+
+
+	<form class="form-signin"  method="post" action="/user/register">
 		<div>
-			<input type="text" name="fullname" value="" placeholder="full name">
+			<input type="text" name="fullname" value="" placeholder="full name" class="form-control">
 		</div>
 		<div>
-			<input type="text" name="username" value="" placeholder="username">
+			<input type="text" name="username" value="" placeholder="username" class="form-control">
 		</div>
 		<div>
-			<input type="text" name="email" value="" placeholder="email">
+			<input type="text" name="email" value="" placeholder="email" class="form-control">
 		</div>
 		<div>
-			<input type="password" name="password" value="" placeholder="password">
+			<input type="password" name="password" value="" class="form-control"
+				placeholder="password">
 		</div>
 		<div>
-			<input type="password" name="password2" value="" placeholder="repeat password">
+			<input type="password" name="password2" value="" class="form-control"
+				placeholder="repeat password">
 		</div>
-		<input type="submit" name="submit" value="Login">
+		<div class="inline-list">
+			<input class="btn btn-success" type="submit" name="submit" value="Register"> <a
+				class="btn btn-warning"
+				href="<?php if(isset($backurl)) echo $backurl;?>">Cancel</a>
+		</div>
 	<?php
 	
 	if (isset ( $backurl )) {

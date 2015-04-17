@@ -79,7 +79,11 @@ class DAUser extends DA_Base {
 		
 		$stmt->execute ();
 		
-		$people = array ();
+		
+		if($stmt->rowCount() < 1)
+			throw new \Exception("Incorrect credentials!");
+		
+				
 		$result = $stmt->fetch ( \PDO::FETCH_ASSOC );
 			
 		
@@ -102,6 +106,7 @@ class DAUser extends DA_Base {
 		
 		$stmt->execute ();
 		
+				
 		$people = array ();
 		$result = $stmt->fetch ( \PDO::FETCH_ASSOC );
 			
