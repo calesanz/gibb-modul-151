@@ -1,14 +1,14 @@
-<ul class="alert alert-danger">
+
 	<?php
 	if (isset ( $errors ))
 		
-		echo $errors;
+		echo "<ul class='alert alert-danger'>" . $errors . "</ul>";
 	
 	?>
-</ul>
+
 <form action="/gaestebuch/bearbeiten" method="post">
 	<textarea type="text" name="inhalt"
-		value="<?php if(isset($guestbookentry)) echo $guestbookentry->Text; ?> "></textarea>
+		text="<?php if(isset($guestbookentry)) echo $guestbookentry->Text; ?> "></textarea>
 	<input type="hidden" name="guestbookId"
 		value="<?php if(isset($guestbookentry)) echo $guestbookentry->Id; ?> ">
 	<div class="inline-list">
@@ -30,7 +30,9 @@ if (isset ( $backurl )) {
 	echo "<input type='hidden' name='backurl' value='$backurl'>";
 }
 ?>
-<div><input class="btn btn-danger" type="submit" value="Delete"></div>
+<div>
+		<input class="btn btn-danger" type="submit" value="Delete">
+	</div>
 
 
 
