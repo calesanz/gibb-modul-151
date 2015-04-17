@@ -23,6 +23,7 @@ Meine Interpretation der Anforderungen:
 * change password
 * Impressum/Rechtliches
 * username entfernen ✓
+* CSRF Protection
 
 
 #Nice to have
@@ -42,9 +43,9 @@ Meine Interpretation der Anforderungen:
 * Installations doku (LAMP, mcrypt, mod rewrite, passwd.php)
 * Security gedanken 
 	* SIKO
-	* Redirect validation
+	* Redirect validation ✓
 	* CSRF
-	* SQL Inject
-	* XSS Prevention
-	* Salted Hashed PW
-	* Robots deny All
+	* SQL Inject ✓
+	* XSS Prevention ✓
+	* Salted Hashed PW ✓
+	* Robots deny All ✓
