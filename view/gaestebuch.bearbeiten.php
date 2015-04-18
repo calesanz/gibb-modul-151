@@ -1,8 +1,8 @@
 
 <form action="/gaestebuch/bearbeiten" method="post">
-	<textarea type="text" name="inhalt" style="height:100%;width:100%" rows="10"
-		><?php if(isset($guestbookentry)) echo $guestbookentry->Text; ?></textarea>
-		
+	<textarea type="text" name="inhalt" style="height: 100%; width: 100%"
+		rows="10"><?php if(isset($guestbookentry)) echo $guestbookentry->Text; ?></textarea>
+
 	<input type="hidden" name="guestbookId"
 		value="<?php if(isset($guestbookentry)) echo $guestbookentry->Id; ?> ">
 	<div class="inline-list">
@@ -16,15 +16,15 @@ if (isset ( $backurl )) {
 }
 ?>
 </form>
-<?php if(isset($guestbookentry)) { ?>
+<?php if(isset($guestbookentry) && isset($guestbookentry->Id) && $guestbookentry->Id>0) { ?>
 <form action="/gaestebuch/loeschen" method="post">
 	<input type="hidden" name="guestbookId"
 		value="<?php echo $guestbookentry->Id; ?> ">
 <?php
-if (isset ( $backurl )) {
-	echo "<input type='hidden' name='backurl' value='$backurl'>";
-}
-?>
+	if (isset ( $backurl )) {
+		echo "<input type='hidden' name='backurl' value='$backurl'>";
+	}
+	?>
 <div>
 		<input class="btn btn-danger" type="submit" value="Delete">
 	</div>
