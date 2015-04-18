@@ -6,6 +6,7 @@
 
 <title>Guestbook</title>
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/assets/style.css"/>
 
 <style>
 body {

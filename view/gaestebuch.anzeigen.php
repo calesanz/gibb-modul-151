@@ -6,7 +6,7 @@ foreach ( $entries as $entry ) {
 	
 
 		<div class="jumbotron">
-		<div>
+		<div class="multiline-text">
 	<?php
 	echo "<p>$entry->Text </p>";
 	?>					
