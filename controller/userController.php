@@ -10,35 +10,9 @@ class userController implements IController {
 		$this->exceptionMessages = [ ];
 	}
 	public function index() {
-		$this->listusers ();
+		$this->login ();
 	}
-	public function detail() {
-		if (! isset ( $this->session ['userId'] ))
-			\Redirector::redirect ( "/user/login?backurl=/user/listusers" );
-		else {
-			$user = \BO\BOUser::find ( $this->param );
-			if ($user && ! $user->isNew ()) {
-				
-				(new \View\View ( 'user.detail', array (
-						'user' => $user 
-				) ))->display ();
-			} else {
-				$this->listusers ();
-			}
-		}
-	}
-	public function listusers() {
-		if (! isset ( $this->session ['userId'] ))
-			\Redirector::redirect ( "/user/login?backurl=/user/listusers" );
-		else {
-			
-			$users = \BO\BOUser::findAll ();
-			
-			$this->innerView = new \View\View ( 'user.list', array (
-					'users' => $users 
-			) );
-		}
-	}
+	
 	public function changepassword() {
 		$errorMessage = "";
 		if (empty ( $this->session ['userId'] )) {
