@@ -1,5 +1,6 @@
 # gibb-modul-151
 GIBB Web Modul
+This is just a school project... don't judge ;)
 
 
 #Anforderungen
@@ -20,13 +21,14 @@ Meine Interpretation der Anforderungen:
 * Alle einträge anzeigen ✓
 * Registration: Daten zwischenpeichern✓
 * better Exception / Error handling
-* change password
-* Impressum/Rechtliches
+* change password ✓
 * username entfernen ✓
-* CSRF Protection
+
 
 
 #Nice to have
+* CSRF Protection
+* Impressum/Rechtliches
 * Images / Attachments
 * Captcha (bei registration)
 * Security questions

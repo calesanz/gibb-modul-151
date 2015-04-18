@@ -12,23 +12,67 @@ class userController implements IController {
 		$this->listusers ();
 	}
 	public function detail() {
-		$user = \BO\BOUser::find ( $this->param );
-		if ($user && ! $user->isNew ()) {
-			
-			(new \View\View ( 'user.detail', array (
-					'user' => $user 
-			) ))->display ();
-		} else {
-			$this->listusers ();
+		if (! isset ( $this->session ['userId'] ))
+			\Redirector::redirect ( "/user/login?backurl=/user/listusers" );
+		else {
+			$user = \BO\BOUser::find ( $this->param );
+			if ($user && ! $user->isNew ()) {
+				
+				(new \View\View ( 'user.detail', array (
+						'user' => $user 
+				) ))->display ();
+			} else {
+				$this->listusers ();
+			}
 		}
 	}
 	public function listusers() {
-		$users = \BO\BOUser::findAll ();
-		
-		$this->innerView = new \View\View ( 'user.list', array (
-				'users' => $users 
-		) );
-		$this->create ();
+		if (! isset ( $this->session ['userId'] ))
+			\Redirector::redirect ( "/user/login?backurl=/user/listusers" );
+		else {
+			
+			$users = \BO\BOUser::findAll ();
+			
+			$this->innerView = new \View\View ( 'user.list', array (
+					'users' => $users 
+			) );
+			$this->create ();
+		}
+	}
+	public function changepassword() {
+		$errorMessage="";
+		if (! isset ( $this->session ['userId'] ))
+			\Redirector::redirect ( "/user/login?backurl=/user/changepassword" );
+		else {
+			$backurl = "/";
+			if (isset ( $this->data ['backurl'] ))
+				$backurl = $this->data ['backurl'];
+			$user = \BO\BOUser::find ( $this->session ['userId'] );
+			//If all data is set
+			if (isset($user->Id)&&isset ( $this->data ['oldpassword'] ) && isset ( $this->data ['newpassword'] ) && isset ( $this->data ['newpassword2'] )) {
+				try{
+				\BO\BOUser::changePassword($user,
+						 $this->data ['oldpassword'],
+						$this->data ['newpassword'],
+						$this->data ['newpassword2']);
+				\Redirector::redirect($backurl);
+				}
+				
+				catch(\Exception $ex){
+					$errorMessage .="<li>".$ex->getMessage()."</li>";
+				}
+				
+			}
+			
+			//Display
+			
+			$this->innerView = new \View\View ( 'user.changepassword', array (
+					'errorMessage' => $errorMessage,
+					'backurl' => $backurl,
+					'email' => $user->Email 
+			) );
+			$this->create ();
+		}
 	}
 	public function register() {
 		$errorMessage = "";
@@ -38,7 +82,7 @@ class userController implements IController {
 			$backurl = $this->data ['backurl'];
 			// Do the register logic and validation
 		if (isset ( $this->data ['submit'] ))
-			if ( isset ( $this->data ['password'] ) && isset ( $this->data ['password2'] ) && isset ( $this->data ['email'] ) && isset ( $this->data ['fullname'] )) {
+			if (isset ( $this->data ['password'] ) && isset ( $this->data ['password2'] ) && isset ( $this->data ['email'] ) && isset ( $this->data ['fullname'] )) {
 				
 				$password = $this->data ['password'];
 				$password2 = $this->data ['password'];
@@ -66,16 +110,15 @@ class userController implements IController {
 			} else
 				$errorMessage .= "<li>Please fill in all fields!</li>";
 			
-			//chached data
-			$email = isset($this->data ['email']) ? $this->data['email']:"" ;
-			$fullname =isset($this->data ['fullname']) ? $this->data['fullname']:"" ;
-			// Display Login Page
+			// chached data
+		$email = isset ( $this->data ['email'] ) ? $this->data ['email'] : "";
+		$fullname = isset ( $this->data ['fullname'] ) ? $this->data ['fullname'] : "";
+		// Display Login Page
 		$this->innerView = new \View\View ( 'user.registrieren', array (
 				'errorMessage' => $errorMessage,
-				'backurl' => $backurl ,
-				'fullname' =>$fullname,
-				'email' => $email
-			
+				'backurl' => $backurl,
+				'fullname' => $fullname,
+				'email' => $email 
 		) );
 		$this->create ();
 	}
@@ -116,9 +159,12 @@ class userController implements IController {
 		$this->create ();
 	}
 	public function create() {
+		$fullname = isset($this->session['FullName'])?$this->session['FullName']:null;
+		
 		$this->innerView = (new \View\View ( 'mainpage', array (
-				'title' => 'Login',
-				'innercontent' => $this->innerView 
+				'title' => 'User',
+				'innercontent' => $this->innerView,
+				'fullname'=>$fullname
 		) ))->display ();
 	}
 	public function __destruct() {

@@ -13,7 +13,8 @@ require_once ('lib/Redirector.php');
 require_once ('lib/passwd.php');
 class Dispatcher {
 	public function dispatch() {
-		ini_set ( 'display_errors', TRUE );
+		ini_set ( 'display_errors', FALSE );
+
 		
 		session_start ();
 		

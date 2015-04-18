@@ -101,7 +101,7 @@ class DAUser extends DA_Base {
 	function changePassword($user,$oldpassword,$newpassword){
 		$sql = 'SELECT * FROM User WHERE Email = :Email';
 		$stmt = self::getConnection ()->prepare ( $sql );
-		$stmt->bindValue ( ":Email", $email );
+		$stmt->bindValue ( ":Email", $user->Email );
 		
 		$stmt->execute ();
 		
@@ -112,6 +112,7 @@ class DAUser extends DA_Base {
 		
 		$user = self::assignValues ( new \BE\BEUser (), $result );
 	//Check if old password is correct
+		
 		if(self::getPasswordHash($oldpassword,$user->PasswordSalt) === $user->Password){
 			
 			$salt =  \mcrypt_create_iv(32, MCRYPT_DEV_URANDOM);
@@ -133,7 +134,7 @@ class DAUser extends DA_Base {
 			
 		}
 		else{
-			throw new \Exception("Incorrect credentials!");
+			throw new \Exception("cp. Incorrect credentials!");
 				
 		}
 		

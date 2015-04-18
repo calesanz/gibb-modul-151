@@ -39,6 +39,7 @@ body {
 				<ul class="nav navbar-nav">
 					<li ><a href="/">Home</a></li>
 					<li><a href="/gaestebuch/bearbeiten">New Entry..</a></li>
+					<li><a href="/user/changepassword">Change Password</a></li>
 					<li><a href="/user/logout">Logout</a></li>
 				</ul> <?php }
 				else {?>
