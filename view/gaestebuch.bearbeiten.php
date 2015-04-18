@@ -16,9 +16,10 @@ if (isset ( $backurl )) {
 }
 ?>
 </form>
+<?php if(isset($guestbookentry)) { ?>
 <form action="/gaestebuch/loeschen" method="post">
 	<input type="hidden" name="guestbookId"
-		value="<?php if(isset($guestbookentry)) echo $guestbookentry->Id; ?> ">
+		value="<?php echo $guestbookentry->Id; ?> ">
 <?php
 if (isset ( $backurl )) {
 	echo "<input type='hidden' name='backurl' value='$backurl'>";
@@ -31,3 +32,4 @@ if (isset ( $backurl )) {
 
 
 </form>
+<?php  } ?>
