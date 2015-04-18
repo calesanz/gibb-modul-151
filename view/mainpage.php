@@ -88,8 +88,9 @@ body {
 		<hr
 			style="height: .2em; background-color: lightgrey; border-radius: 2em;" />
 		<p>
-			Site by Elias Schmidhalter <a
-				href="https://github.com/calesanz/gibb-modul-151/">@Github</a>
+			(&#x0254;) Elias Schmidhalter <br>
+			Source code available on <a
+				href="https://github.com/calesanz/gibb-modul-151/">Github</a>
 		</p>
 		<script type="text/javascript" src="/assets/js/jquery-1.11.2.min.js"></script>
 		<script src="/assets/js/bootstrap.min.js"></script>

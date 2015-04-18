@@ -8,7 +8,7 @@ require_once ('lib/SqlConnector.php');
 require_once ('lib/Redirector.php');
 require_once ('lib/Exception.php');
 
-/*
+/**
  * DB_NAME DB_USER DB_PASSWORD must be defined in passwd file
  */
 require_once ('lib/passwd.php');
@@ -18,12 +18,16 @@ class Dispatcher {
 
 		
 		session_start ();
-		
+		/**
+		 * Registers the onload funciton to require not required files 
+		 */
 		spl_autoload_register ( array (
 				$this,
 				'on_load' 
 		) );
-		
+		/**
+		 * Run strip tags on all incoming requests
+		 * */
 		array_walk_recursive ( $_REQUEST, array (
 				$this,
 				'myStripTags' 
@@ -63,11 +67,18 @@ class Dispatcher {
 		$cont->$method ();
 		unset ( $cont );
 	}
+	
+	/**
+	 * Strips prohibidden tags
+	 * */
 	function myStripTags(&$value, $key) {
 		$value = strip_tags ( $value, '<p><br /><b><strong>' );
 		$value = htmlspecialchars ( $value, ENT_QUOTES );
 		$value = trim ( $value );
 	}
+	/**
+	 * Requires Files according to Namespace
+	 * */
 	function on_load($class) {
 		$filePath = '' . str_replace ( '\\', '/', $class ) . '.php';
 		if (file_exists ( $filePath ))

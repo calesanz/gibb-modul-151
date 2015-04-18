@@ -44,7 +44,7 @@ Meine Interpretation der Anforderungen:
 * User Stories ✓
 * Test cases
 * Test protokoll
-* CRQ erstellen
+* ~~CRQ erstellen~~
 * Installations doku (LAMP, mcrypt, mod rewrite, passwd.php)✓
 * Security gedanken 
 	* SIKO

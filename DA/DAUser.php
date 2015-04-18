@@ -33,7 +33,7 @@ class DAUser extends DA_Base {
 	}
 	
 	function save(\BE\BEUser $user) {
-		
+		throw new \Exception\NotImplementedException();
 	}
 	
 	function addUser(\BE\BEUser $user,$password){
@@ -69,7 +69,7 @@ class DAUser extends DA_Base {
 	}
 	
 	function findByEmailPassword($email,$password){
-		//TODO Salt
+		
 		
 		
 		$sql = 'SELECT * FROM User WHERE Email = :Email';
@@ -80,7 +80,7 @@ class DAUser extends DA_Base {
 		
 		
 		if($stmt->rowCount() < 1)
-			throw new \Exception("Incorrect credentials!");
+			throw new \Exception\AccessDeniedException("Incorrect credentials!");
 		
 				
 		$result = $stmt->fetch ( \PDO::FETCH_ASSOC );
@@ -92,7 +92,7 @@ class DAUser extends DA_Base {
 			return $user;
 		}
 		else{
-			throw new \Exception("Incorrect credentials!");
+			throw new \Exception\AccessDeniedException("Incorrect credentials!");
 			
 		}
 		
@@ -134,7 +134,7 @@ class DAUser extends DA_Base {
 			
 		}
 		else{
-			throw new \Exception("cp. Incorrect credentials!");
+			throw new \Exception\AccessDeniedException("Incorrect credentials!");
 				
 		}
 		

@@ -14,21 +14,9 @@ class BOUser extends BO_Base{
 	}
 	
 	static function save(\BEUser $user){
-		$error= $this->validate($user);
-		if ($error!=""){
-			// TODO: Save User
-		}
-		return  $error;
+		throw new \Exception\NotImplementedException();
 	}
 	
-	static function validate(\BEUser $user){
-		$message ="";
-		if($user.id == 0){
-			$message .= "<li>User cannot be null!</li>";
-		}
-		return $message;
-		
-	}
 	
 	static function login($email,$password){
 		

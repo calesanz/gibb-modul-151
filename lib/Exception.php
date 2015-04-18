@@ -24,7 +24,6 @@ abstract class CustomException extends \Exception implements IException {
 	protected $file; // Source filename of exception
 	protected $line; // Source line of exception
 	private $trace; // Unknown
-	
 	public function __toString() {
 		return get_class ( $this ) . " '{$this->message}'\n";
 	}
@@ -32,22 +31,19 @@ abstract class CustomException extends \Exception implements IException {
 class AccessDeniedException extends CustomException {
 	protected $message = 'Access Denied!';
 }
-
-class UnknownException extends CustomException{
+class UnknownException extends CustomException {
 	protected $message = 'Unknown Error!';
-	
 }
-
-class UserFaultException extends CustomException{
-	protected $message = 'Something went wrong with your Request!';
+class NotImplementedException extends CustomException {
+	protected $message = 'This Funciton is not available by now. Wait for it or make a pullrequest on Github.';
 }
-class MultiFaultException extends CustomException{
-	protected $message = 'Multiple things went wrong with your Request!';
-	protected $messages = [];
-	public function setMessages($messages = array()){
-		$this->message = "<ul><li>".join("</li><li>",$messages)."</li></ul>";
+class UserFaultException extends CustomException {
+	protected $message = 'Something went wrong with your request!';
+}
+class MultiFaultException extends CustomException {
+	protected $message = 'Multiple things went wrong with your request!';
+	protected $messages = [ ];
+	public function setMessages($messages = array()) {
+		$this->message = "<ul><li>" . join ( "</li><li>", $messages ) . "</li></ul>";
 	}
-	
-	
-	
 }

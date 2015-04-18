@@ -30,7 +30,6 @@ class DAGuestBookEntry extends DA_Base {
 		return $entries;
 	}
 	function save(\BE\BEGuestBookEntry $entry) {
-		// TODO New and update Queys
 		$sql = "";
 		
 		if ($entry->Id > 0)
@@ -52,9 +51,9 @@ class DAGuestBookEntry extends DA_Base {
 			
 			$stmt->execute ();
 		} catch ( \Exception $e ) {
-			return "<li>An internal Error ocourred!</li>";
+			throw new \Exception\UnknownException( "An internal Error ocourred!");
 		}
-		// TODO Error handling
+		
 	}
 	function delete(\BE\BEGuestBookEntry $entry) {
 		$sql = "DELETE FROM GuestBookEntry WHERE Id = :Id";
@@ -66,7 +65,7 @@ class DAGuestBookEntry extends DA_Base {
 			
 			$stmt->execute ();
 		} catch ( \Exception $e ) {
-			return "<li>Could not delete entry. An internal Error ocourred!</li>";
+			throw new \Exception\UnknownException(  "Could not delete entry. An internal Error ocourred!");
 		}
 	}
 }
