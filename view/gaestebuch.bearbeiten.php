@@ -13,7 +13,7 @@
 	<input type="hidden" name="guestbookId"
 		value="<?php if(isset($guestbookentry)) echo $guestbookentry->Id; ?> ">
 	<div class="inline-list">
-		<input class="btn btn-success" type="submit" value="submit"> <a
+		<input class="btn btn-success" type="submit" value="Save"> <a
 			class="btn btn-warning"
 			href="<?php if(isset($backurl)) echo $backurl;?>">Cancel</a>
 	</div>

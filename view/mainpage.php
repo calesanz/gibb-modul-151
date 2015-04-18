@@ -75,7 +75,8 @@ if (isset ( $fullname )) {
 	</div>
 	</div>
 
-	<footer class="container navbar navbar-fixed-bottom">
+	<footer class="container footer">
+	<hr style="height: .2em;background-color:lightgrey;border-radius:2em;"/>
 		<p>
 			Site by Elias Schmidhalter <a
 				href="https://github.com/calesanz/gibb-modul-151/">@Github</a>
