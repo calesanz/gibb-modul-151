@@ -3,6 +3,7 @@ GIBB Web Modul
 This is just a school project... don't judge ;)
 
 
+
 #Anforderungen
 Meine Interpretation der Anforderungen:
 * Gästebuch ✓
@@ -28,6 +29,7 @@ Meine Interpretation der Anforderungen:
 
 
 #Nice to have
+* Remove "Denglisch"
 * CSRF Protection
 * Impressum/Rechtliches
 * Images / Attachments

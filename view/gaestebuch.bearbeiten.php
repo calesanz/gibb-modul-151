@@ -1,11 +1,4 @@
 
-	<?php
-	if (isset ( $errors )&&$errors!="")
-		
-		echo "<ul class='alert alert-danger'>" . $errors . "</ul>";
-	
-	?>
-
 <form action="/gaestebuch/bearbeiten" method="post">
 	<textarea type="text" name="inhalt" style="height:100%;width:100%" rows="10"
 		><?php if(isset($guestbookentry)) echo $guestbookentry->Text; ?></textarea>

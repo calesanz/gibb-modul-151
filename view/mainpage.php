@@ -36,8 +36,7 @@ body {
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 			<?php
-			
-if (isset ( $fullname )) {
+			if (isset ( $fullname )) {
 				// Logged In navigation
 				?>
 				<ul class="nav navbar-nav">
@@ -46,8 +45,7 @@ if (isset ( $fullname )) {
 					<li><a href="/user/changepassword">Change Password</a></li>
 					<li><a href="/user/logout">Logout</a></li>
 				</ul> <?php
-			
-} else {
+			} else {
 				?>
 				<ul class="nav navbar-nav">
 					<li><a href="/">Home</a></li>
@@ -55,8 +53,7 @@ if (isset ( $fullname )) {
 					<li><a href="/user/register">Register</a></li>
 				</ul>
 				<?php
-			
-} // End Else
+			} // End Else
 			?>
 			</div>
 
@@ -69,6 +66,18 @@ if (isset ( $fullname )) {
 		<div>
 			<h1><?php echo $title; ?></h1>
 		</div>
+		<!-- Error Part -->
+		<?php
+		
+		if (! empty ( $exceptionMessages )) {
+			echo "<div class='alert alert-danger'>";
+			
+			foreach ( $exceptionMessages as $exception )
+				echo $exception . "<br/>";
+			echo "</div>";
+		}
+		?>
+
 		<div>
 					<?php $innercontent->display()?>
 				
@@ -76,7 +85,8 @@ if (isset ( $fullname )) {
 	</div>
 
 	<footer class="container footer">
-	<hr style="height: .2em;background-color:lightgrey;border-radius:2em;"/>
+		<hr
+			style="height: .2em; background-color: lightgrey; border-radius: 2em;" />
 		<p>
 			Site by Elias Schmidhalter <a
 				href="https://github.com/calesanz/gibb-modul-151/">@Github</a>

@@ -7,6 +7,7 @@ class gaestebuchController implements IController {
 		$this->param = $param;
 		$this->data = $data;
 		$this->session = $session;
+		$this->exceptionMessages = [ ];
 	}
 	public function index() {
 		$entries = array ();
@@ -22,97 +23,100 @@ class gaestebuchController implements IController {
 		$this->innerView = new \View\View ( 'gaestebuch.anzeigen', array (
 				'entries' => $entries 
 		) );
-		
-		$this->create ();
 	}
 	public function bearbeiten() {
 		$backurl = "/";
 		if (isset ( $this->data ['backurl'] ))
 			$backurl = $this->data ['backurl'];
 		
-		$errors = "";
-		
-		$guestbookId = $this->param;
-		if (! (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0))
-			$guestbookId = isset ( $this->data ['guestbookId'] ) ? $this->data ['guestbookId'] : 0;
-		
-		$guestbook = new \BE\BEGuestBookEntry ();
-		
-		if (isset ( $this->session ['userId'] )) {
+		try {
+			$errors = "";
+			
+			$guestbookId = $this->param;
+			if (! (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0))
+				$guestbookId = isset ( $this->data ['guestbookId'] ) ? $this->data ['guestbookId'] : 0;
+			
+			$guestbook = new \BE\BEGuestBookEntry ();
+			
+			if (empty ( $this->session ['userId'] ))
+				throw new \Exception\AccessDeniedException ();
+			
 			if (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0) {
 				$guestbook = \BO\BOGuestBook::find ( $guestbookId );
 			}
 			
 			// Checks if user is allowed to modify
-			if ($guestbook->UserId == $this->session ['userId'] || $guestbook->UserId == 0) {
-				if (isset ( $this->data ['inhalt'] )) {
-					$guestbook->Text = $this->data ['inhalt'];
-					$guestbook->UserId = $this->session ['userId'];
-					$guestbook->CreatedAt = date ( 'Y-m-d H:i:s' );
-					
-					$errors .= \BO\BOGuestBook::save ( $guestbook );
-					if ($errirs == "") {
-						// Redirect back
-						\Redirector::redirect ( $backurl );
-						return;
-					}
-				}
-			} else {
-				$errors .= "<li>Warning: You can only modify your own posts!</li>";
+			if (! ($guestbook->UserId == $this->session ['userId'] || $guestbook->UserId == 0))
+				throw new \Exception\AccessDeniedException ( "You can only modify your own posts!" );
+			
+			if (isset ( $this->data ['inhalt'] )) {
+				$guestbook->Text = $this->data ['inhalt'];
+				$guestbook->UserId = $this->session ['userId'];
+				$guestbook->CreatedAt = date ( 'Y-m-d H:i:s' );
+				
+				\BO\BOGuestBook::save ( $guestbook );
+				\Redirector::redirect ( $backurl );
+				return;
 			}
-		} else {
-			$errors .= "<li>Access denied!</li>";
+		} catch ( \Exception\AccessDeniedException $adx ) {
+			$this->exceptionMessages [] = $adx->getMessage ();
+		} catch ( \Exception $ex ) {
+			// This should never happen!
+			$this->exceptionMessages [] = (new UnknownException ())->getMessage ();
 		}
+		
 		$this->innerView = new \View\View ( 'gaestebuch.bearbeiten', array (
-				'errors' => $errors,
 				'guestbookentry' => $guestbook,
 				'backurl' => $backurl 
 		) );
-		$this->create ();
 	}
 	public function loeschen() {
 		$backurl = "/";
 		if (isset ( $this->data ['backurl'] ))
 			$backurl = $this->data ['backurl'];
 		
-		$errors = "";
 		$guestbook = new \BE\BEGuestBookEntry ();
 		$guestbookId = $this->data ['guestbookId'];
-		if (isset ( $this->session ['userId'] )) {
-			if (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0) {
+		try {
+			if (empty ( $this->session ['userId'] ))
+				throw new \Exception\AccessDeniedException ();
+			
+			if (isset ( $guestbookId ) && is_numeric ( $guestbookId ) && $guestbookId > 0)
 				$guestbook = \BO\BOGuestBook::find ( $guestbookId );
+			
+			if ($guestbook->Id == 0)
+				throw new \Exception\UserFaultException ( "No valid entry specified!" );
 				
 				// Checks if user is allowed to modify
-				if ($guestbook->UserId == $this->session ['userId']) {
-					$errors .= \BO\BOGuestBook::delete ( $guestbook );
-					if ($errors == "") {
-						// Redirect back
-						\Redirector::redirect ( $backurl );
-						return;
-					}
-				} else {
-					$errors .= "<li>Warning: You can only delete your own posts!</li>";
-				}
-			} else
-				$errors .= "<li>No entry specified!</li>";
-		} else {
-			$errors .= "<li>Access denied!</li>";
+			if ($guestbook->UserId != $this->session ['userId'])
+				throw new \Exception\AccessDeniedException ( "You can only delete your own posts!" );
+				
+				// Call to delete
+			\BO\BOGuestBook::delete ( $guestbook );
+			
+			// Redirect back
+			\Redirector::redirect ( $backurl );
+			return;
+		} catch ( \Exception\AccessDeniedException $adx ) {
+			$this->exceptionMessages [] = $adx->getMessage ();
+		} catch ( \Exception $ex ) {
+			// This should never happen!
+			$this->exceptionMessages [] = $ex->getMessage ();
 		}
 		$this->innerView = new \View\View ( 'gaestebuch.bearbeiten', array (
-				'errors' => $errors,
 				'guestbookentry' => $guestbook,
 				'backurl' => $backurl 
 		) );
-		$this->create ();
 	}
 	public function create() {
-		$fullname = isset($this->session['FullName'])?$this->session['FullName']:null;
+	}
+	public function __destruct() {
+		$fullname = isset ( $this->session ['FullName'] ) ? $this->session ['FullName'] : null;
 		(new \View\View ( 'mainpage', array (
 				'title' => 'Guestbook',
 				'innercontent' => $this->innerView,
-				'fullname' => $fullname
+				'fullname' => $fullname,
+				'exceptionMessages' => $this->exceptionMessages 
 		) ))->display ();
-	}
-	public function __destruct() {
 	}
 }

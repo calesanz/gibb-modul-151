@@ -36,30 +36,32 @@ class BOUser extends BO_Base{
 	}
 	
 	static function register(\BE\BEUser $user,$password,$passwordrepeat){
-		$errorMessage ="";
+		$errorMessages =[];
 		
 		if(!filter_var($user->Email, FILTER_VALIDATE_EMAIL)){
 				
-			$errorMessage .='<li>Invalid email address!</li>';
+			$errorMessages[] ='Invalid email address!';
 		}
 		if(1!=preg_match ("/^[a-z0-9 ]*$/i",$user->FullName)){
 		
-			$errorMessage .= '<li>Fullname must be alphanumeric.</li>';
+			$errorMessages[] = 'Fullname must be alphanumeric.';
 		}
 		if(1!=preg_match("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/",$password)){
 				
-			$errorMessage .= '<li>Password: min. 8 characters, numbers, letters (capital and lowercase) and special characters</li>';
+			$errorMessages[] = 'Password: min. 8 characters, numbers, letters (capital and lowercase) and special characters';
 		}
-		if($password!=$passwordrepeat){
+		if($password!==$passwordrepeat){
 				
-			$errorMessage .= '<li>Passwords do not match!</li>';
+			$errorMessages[] = 'Passwords do not match!';
 		}
 		
-		if($errorMessage == ""){
+		if(empty($errorMessages)){
 			return \DA\DAUser::addUser($user,$password);
 		}
 		else{
-			throw new \Exception($errorMessage);
+			$fault = new \Exception\MultiFaultException();
+			$fault->setMessages($errorMessages);
+			throw $fault;
 		}
 		
 	}
