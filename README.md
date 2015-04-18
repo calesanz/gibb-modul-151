@@ -17,12 +17,13 @@ Meine Interpretation der Anforderungen:
 	* bearbeiten ✓
 	* löschen ✓
 * Navigation ✓
-* Design 
 * Alle einträge anzeigen ✓
 * Registration: Daten zwischenpeichern✓
-* better Exception / Error handling
 * change password ✓
 * username entfernen ✓
+* better Exception / Error handling
+* Design 
+* README.txt erstellen (hosting link, user/password)
 
 
 
@@ -42,7 +43,7 @@ Meine Interpretation der Anforderungen:
 * Test cases
 * Test protokoll
 * CRQ erstellen
-* Installations doku (LAMP, mcrypt, mod rewrite, passwd.php)
+* Installations doku (LAMP, mcrypt, mod rewrite, passwd.php)✓
 * Security gedanken 
 	* SIKO
 	* Redirect validation ✓
