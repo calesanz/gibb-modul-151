@@ -72,7 +72,7 @@ class Dispatcher {
 	 * Strips prohibidden tags
 	 * */
 	function myStripTags(&$value, $key) {
-		$value = strip_tags ( $value, '<p><br /><b><strong>' );
+		$value = strip_tags ( $value, '' );
 		$value = htmlspecialchars ( $value, ENT_QUOTES );
 		$value = trim ( $value );
 	}
