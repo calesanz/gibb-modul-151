@@ -6,9 +6,9 @@ foreach ( $entries as $entry ) {
 	
 
 		<div class="jumbotron">
-		<div class="multiline-text">
+		<div class="">
 	<?php
-	echo "<p>$entry->Text </p>";
+	echo "<p class='multilin-text'>$entry->Text </p>";
 	?>					
 			</div>
 		<div>
